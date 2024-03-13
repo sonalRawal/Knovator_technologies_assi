@@ -10,8 +10,7 @@ module.exports = {
       }
 
       const { title, body, active, latitude, longitude } = req.body;
-      const createdBy = req.user._id; // Assuming user ID is stored in req.user after authentication
-
+      const createdBy = req.userId; // Assuming user ID is stored in req.user after authentication
       const post = new Post({
         title,
         body,

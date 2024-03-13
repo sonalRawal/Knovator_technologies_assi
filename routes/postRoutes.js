@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
-const authenticationMiddleware = require('../middleware/authenticationMiddleware');
+const {userAuth} = require('../middleware/authenticationMiddleware');
 const { body } = require('express-validator');
 // Create a post
 router.post('/', [
-    authenticationMiddleware,
+    userAuth,
     body('title').notEmpty(),
     body('body').notEmpty(),
     body('active').isBoolean(),
@@ -14,14 +14,14 @@ router.post('/', [
   ], postController.createPost);
   
   // Get all posts created by the authenticated user
-  router.get('/', authenticationMiddleware, postController.getPosts);
+  router.get('/', userAuth, postController.getPosts);
   
   // Get a specific post by ID
-  router.get('/:id', authenticationMiddleware, postController.getPostById);
+  router.get('/:id', userAuth, postController.getPostById);
   
   // Update a post
   router.put('/:id', [
-    authenticationMiddleware,
+    userAuth,
     body('title').notEmpty(),
     body('body').notEmpty(),
     body('active').isBoolean(),
@@ -30,7 +30,7 @@ router.post('/', [
   ], postController.updatePost);
   
   // Delete a post
-  router.delete('/:id', authenticationMiddleware, postController.deletePost);
-router.get('/nearby', authenticationMiddleware, postController.getPostsNearby);
-router.get('/counts', authenticationMiddleware, postController.getPostCounts);
+  router.delete('/:id', userAuth, postController.deletePost);
+router.get('/nearby', userAuth, postController.getPostsNearby);
+router.get('/counts', userAuth, postController.getPostCounts);
 module.exports = router;
